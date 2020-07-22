@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8b2c9b8e7a8021ec3a9b04291c5979c",
+    "content-hash": "71cc59d458bacbe16258400610d79dcf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -740,6 +740,54 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "larasocket/larasocket-driver",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/larasocket/larasocket-driver.git",
+                "reference": "96f3cf4a019fbf8afd62753e895c04c55f038719"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/larasocket/larasocket-driver/zipball/96f3cf4a019fbf8afd62753e895c04c55f038719",
+                "reference": "96f3cf4a019fbf8afd62753e895c04c55f038719",
+                "shasum": ""
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Larasocket\\LarasocketServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Larasocket\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zach Vander Velden",
+                    "email": "zachvv11@gmail.com"
+                }
+            ],
+            "description": "Pay as you go broadcast driver for Laravel.",
+            "homepage": "https://larasocket.com",
+            "keywords": [
+                "Broadcast",
+                "driver",
+                "larasocket",
+                "laravel",
+                "websocket"
+            ],
+            "time": "2020-07-20T03:55:49+00:00"
         },
         {
             "name": "laravel/framework",
