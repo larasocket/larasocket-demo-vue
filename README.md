@@ -1,6 +1,6 @@
 Welcome to the larasocket.com demo repository. 
 
-You can follow along [here](https://medium.com/@zachvv11/laravel-broadcasting-in-2020-5a0ced038d).
+You can follow along [here](https://medium.com/@zachvv11/building-a-real-time-chat-application-with-laravel-and-larasocket-c3e377537dc2).
 
 # Getting Started
 1. `git clone git@github.com:larasocket/larasocket-demo.git`
