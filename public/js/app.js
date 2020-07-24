@@ -18013,8 +18013,11 @@ var LarasocketManager = /** @class */ (function () {
             var formattedEventName = this.eventFormatter.format(message.event);
             if (this.listeners[formattedEventName]) {
                 try {
+                    var payloadForListeners = message.payload;
+                    if (typeof payloadForListeners === 'string') {
+                        payloadForListeners = JSON.parse(payloadForListeners);
+                    }
                     // convert payload into an object
-                    var payloadForListeners = JSON.parse(message.payload);
                     this.listeners[formattedEventName](payloadForListeners);
                 }
                 catch (e) {
@@ -18030,9 +18033,7 @@ var LarasocketManager = /** @class */ (function () {
      */
     LarasocketManager.prototype.authenticate = function (channel) {
         if (channel instanceof channel_1.LarasocketPresenceChannel || channel instanceof channel_1.LarasocketPrivateChannel) {
-            return this.websocketInstance.getAuthNetworkPromise(channel.name).then(function (response) {
-                return response.data;
-            });
+            return this.websocketInstance.getAuthNetworkPromise(channel);
         }
         return Promise.resolve(); // dummy Promise. No auth for public channels.
     };
@@ -18098,31 +18099,41 @@ var LarasocketWebsocket = /** @class */ (function () {
     };
     /**
      *
-     * @param channelName
+     * @param channel
      */
-    LarasocketWebsocket.prototype.getAuthNetworkPromise = function (channelName) {
+    LarasocketWebsocket.prototype.getAuthNetworkPromise = function (channel) {
         var _this = this;
         return this.getWebsocketInstance().then(function (socket) {
-            var endpoint = _this.options.authEndpoint;
-            if (typeof Vue === 'function' && Vue.http) {
-                return Vue.http.post(endpoint, {
-                    socket_id: _this.connectionId,
-                    channel_name: channelName,
-                    _token: _this.csrf,
+            if (_this.options.authorizer) {
+                var authorizer_1 = _this.options.authorizer(channel, _this.options);
+                return new Promise(function (resolve, reject) {
+                    authorizer_1.authorize(_this.connectionId, function (error, data) {
+                        if (error) {
+                            return reject(data);
+                        }
+                        return resolve(data);
+                    });
                 });
+            }
+            var networkAgent;
+            if (typeof Vue === 'function' && Vue.http) {
+                networkAgent = Vue.http;
             }
             if (typeof axios === 'function') {
-                return axios.post(endpoint, {
-                    socket_id: _this.connectionId,
-                    channel_name: channelName,
-                    _token: _this.csrf,
-                });
+                networkAgent = axios;
             }
             if (typeof jQuery === 'function') {
-                return jQuery.post(endpoint, {
+                networkAgent = jQuery;
+            }
+            if (networkAgent) {
+                return networkAgent
+                    .post(_this.options.authEndpoint, {
                     socket_id: _this.connectionId,
-                    channel_name: channelName,
+                    channel_name: channel.name,
                     _token: _this.csrf,
+                })
+                    .then(function (response) {
+                    return response.data;
                 });
             }
             throw new Error('Need either Vue.http, axios, or jQuery');
@@ -52492,7 +52503,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: larasocket_js__WEBPACK_IMPORTED_MODULE_1___default.a,
-  token: "14|lCjVZIIRWumCKARPl8PYg6sv5l7rXOJDiN7ClV6MQD3PD1YfuI1MzXwzAIaZ8YrJc28HYeGJcmOdSQ3e"
+  token: "3|6JftR8KjsISsbYlj3EjGBOToj0RS3iIQIRTAJigy7oEbQ79bZ6HnNPpEQnTSvVbYkgID1l9eg6TV9kSV"
 });
 
 /***/ }),
