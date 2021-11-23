@@ -9,5 +9,6 @@ You can follow along [here](https://medium.com/@zachvv11/building-a-real-time-ch
 1. `cp .env.example .env`
 1. `php artisan key:generate`
 1. Update your `.env` file with your `LARASOCKET_TOKEN`. You can get one for free at [Larasocket](https://larasocket.com)
+1. Compile the frontend assets: `npm install` + `npm run dev`
 1. `php artisan migrate`
 1. `php artisan serve`
